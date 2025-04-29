@@ -31,4 +31,11 @@ public abstract class ClaimValues
     public const string PermissionRoleAll = "Permission.Role.GetAll";
 
     public const string PermissionUpload = "Permission.RoleClaim.Upload";
+
+    public const string PermissionShopView = "Permission.Shops.View";
+    public const string PermissionShopCreate = "Permission.Shops.Create";
+    public const string PermissionShopUpdate = "Permission.Shops.Update";
+    public const string PermissionShopDelete = "Permission.Shops.Delete";
+    public const string PermissionShopManage = "Permission.Shops.Manage";
+    public const string PermissionShopUserManage = "Permission.Shops.Users.Manage";
 }
