@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HangangRamyeon.Web.Endpoints;
 
-public class RoleEndpoints : EndpointGroupBase
+public class Roles : EndpointGroupBase
 {
     public override void Map(WebApplication app)
     {

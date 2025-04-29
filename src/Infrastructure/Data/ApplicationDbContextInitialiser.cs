@@ -1,12 +1,11 @@
-﻿using HangangRamyeon.Domain.Constants;
-using HangangRamyeon.Domain.Entities;
+﻿using System.Security.Claims;
+using HangangRamyeon.Domain.Constants;
 using HangangRamyeon.Infrastructure.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Security.Claims;
 
 namespace HangangRamyeon.Infrastructure.Data;
 
@@ -68,8 +67,9 @@ public class ApplicationDbContextInitialiser
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An error occurred while seeding the database.");
-            throw;
+            _logger.LogError(ex, "An error occurred while seeding the database. Retrying...");
+            await Task.Delay(5000);
+            await TrySeedAsync();
         }
     }
 
@@ -80,7 +80,12 @@ public class ApplicationDbContextInitialiser
 
         if (_roleManager.Roles.All(r => r.Name != administratorRole.Name))
         {
-            await _roleManager.CreateAsync(administratorRole);
+            var roleResult = await _roleManager.CreateAsync(administratorRole);
+            if (!roleResult.Succeeded)
+            {
+                _logger.LogError("Failed to create administrator role: {Errors}", string.Join(", ", roleResult.Errors.Select(e => e.Description)));
+                throw new Exception("Failed to create administrator role.");
+            }
         }
 
         // Default users
@@ -88,10 +93,18 @@ public class ApplicationDbContextInitialiser
 
         if (_userManager.Users.All(u => u.UserName != administrator.UserName))
         {
-            await _userManager.CreateAsync(administrator, "Administrator1!");
-            if (!string.IsNullOrWhiteSpace(administratorRole.Name))
+            var userResult = await _userManager.CreateAsync(administrator, "Administrator1!");
+            if (!userResult.Succeeded)
             {
-                await _userManager.AddToRolesAsync(administrator, new[] { administratorRole.Name });
+                _logger.LogError("Failed to create administrator user: {Errors}", string.Join(", ", userResult.Errors.Select(e => e.Description)));
+                throw new Exception("Failed to create administrator user.");
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(administratorRole.Name))
+                {
+                    await _userManager.AddToRolesAsync(administrator, new[] { administratorRole.Name });
+                }
             }
         }
 
@@ -127,7 +140,12 @@ public class ApplicationDbContextInitialiser
         {
             if (!existingClaims.Any(c => c.Type == claim.Type && c.Value == claim.Value))
             {
-                await _roleManager.AddClaimAsync(administratorRole, claim);
+                var claimResult = await _roleManager.AddClaimAsync(administratorRole, claim);
+                if (!claimResult.Succeeded)
+                {
+                    _logger.LogError("Failed to add claim {ClaimType}:{ClaimValue} to role {RoleName}: {Errors}",
+                        claim.Type, claim.Value, administratorRole.Name, string.Join(", ", claimResult.Errors.Select(e => e.Description)));
+                }
             }
         }
     }

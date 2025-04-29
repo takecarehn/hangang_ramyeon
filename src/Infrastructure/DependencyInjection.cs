@@ -29,13 +29,7 @@ public static class DependencyInjection
         builder.Services.AddDbContext<ApplicationDbContext>((sp, options) =>
         {
             options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
-#if (UsePostgreSQL)
-            options.UseNpgsql(connectionString).AddAsyncSeeding(sp);
-#elif (UseSqlite)
-            options.UseSqlite(connectionString).AddAsyncSeeding(sp);
-#else
             options.UseSqlServer(connectionString).AddAsyncSeeding(sp);
-#endif
         });
         // Add DapperService
         builder.Services.AddScoped<IDapperService>(provider =>

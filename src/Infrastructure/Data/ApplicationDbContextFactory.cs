@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-using System.IO;
 
 namespace HangangRamyeon.Infrastructure.Data
 {
@@ -19,6 +18,7 @@ namespace HangangRamyeon.Infrastructure.Data
             var connectionString = config.GetConnectionString("HangangRamyeonDb");
 
             optionsBuilder.UseSqlServer(connectionString);
+            //optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
 
             return new ApplicationDbContext(optionsBuilder.Options);
         }
