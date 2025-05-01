@@ -38,4 +38,9 @@ public abstract class ClaimValues
     public const string PermissionShopDelete = "Permission.Shops.Delete";
     public const string PermissionShopManage = "Permission.Shops.Manage";
     public const string PermissionShopUserManage = "Permission.Shops.Users.Manage";
+
+    public const string PermissionProductCategoryCreate = "Permission.ProductCategories.Create";
+    public const string PermissionProductCategoryUpdate = "Permission.ProductCategories.Update";
+    public const string PermissionProductCategoryDelete = "Permission.ProductCategories.Delete";
+    public const string PermissionProductCategoryView = "Permission.ProductCategories.View";
 }
