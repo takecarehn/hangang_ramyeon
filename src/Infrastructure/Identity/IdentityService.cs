@@ -87,6 +87,7 @@ public class IdentityService : IIdentityService
 
     public async Task<IList<string>> GetUserPermissionsAsync(string userId)
     {
+        _cache.Remove($"permissions_{userId}");
         return await _cache.GetOrCreateAsync($"permissions_{userId}", async entry =>
         {
             entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30);
