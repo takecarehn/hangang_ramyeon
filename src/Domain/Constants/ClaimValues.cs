@@ -53,4 +53,9 @@ public abstract class ClaimValues
     public const string PermissionImportOrderCreate = "Permission.ImportOrders.Create";
     public const string PermissionImportOrderUpdate = "Permission.ImportOrders.Update";
     public const string PermissionImportOrderDelete = "Permission.ImportOrders.Delete";
+
+    public const string PermissionSaleOrderCreate = "Permission.SaleOrders.Create";
+    public const string PermissionSaleOrderUpdate = "Permission.SaleOrders.Update";
+    public const string PermissionSaleOrderDelete = "Permission.SaleOrders.Delete";
+    public const string PermissionSaleOrderView = "Permission.SaleOrders.View";
 }
