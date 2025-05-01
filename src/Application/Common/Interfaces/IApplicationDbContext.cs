@@ -1,4 +1,5 @@
 ﻿using HangangRamyeon.Domain.Entities;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace HangangRamyeon.Application.Common.Interfaces;
 
@@ -17,5 +18,6 @@ public interface IApplicationDbContext
     DbSet<SaleOrder> SaleOrders { get; }
     DbSet<SaleOrderDetail> SaleOrderDetails { get; }
 
+    DatabaseFacade Database { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

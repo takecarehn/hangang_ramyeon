@@ -43,4 +43,9 @@ public abstract class ClaimValues
     public const string PermissionProductCategoryUpdate = "Permission.ProductCategories.Update";
     public const string PermissionProductCategoryDelete = "Permission.ProductCategories.Delete";
     public const string PermissionProductCategoryView = "Permission.ProductCategories.View";
+
+    public const string PermissionProductCreate = "Permission.Products.Create";
+    public const string PermissionProductUpdate = "Permission.Products.Update";
+    public const string PermissionProductDelete = "Permission.Products.Delete";
+    public const string PermissionProductView = "Permission.Products.View";
 }
